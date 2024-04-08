@@ -1,0 +1,35 @@
+/* CSS HEX */
+colors {
+--eminence: #7e2e84ff;
+--uranian-blue: #add9f4ff;
+--light-green: #90e39aff;
+--cherry-blossom-pink: #ffb3c6ff;
+--bakermiller-pink: #ff8fabff;
+}
+
+body {
+    font-family: "Raleway", sans-serif;
+}
+.book-genre {
+    font-size: 0.8rem;
+}
+div.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 13px rgba(255, 179, 198, 0.851); 
+    /*background-color: rgb(255, 179, 198);*/
+   /*background-color: rgb(255, 229, 236);
+   color:black;*/
+}
+
+.card-body a {
+    color: white;
+    text-decoration: none;
+}
+
+.card-body a > h5:hover {
+    transform: scale(1.05);
+}
+
+#search-button {
+    background-color: rgb(108, 191, 243);
+}

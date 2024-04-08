@@ -1,0 +1,34 @@
+// import bootstrap
+$black: #000000ff;
+$azure-web: #e6fafcff;
+$tropical-indigo: #7f7effff;
+$dark-cyan: #048a81ff;
+$mardi-gras: #801a86ff;
+$amaranth: #db324dff;
+$fawn: #ffb86fff;
+
+$thistle: #cdb4dbff;
+$fairy-tale: #ffc8ddff;
+$carnation-pink: #ffafccff;
+$uranian-blue: #bde0feff;
+$light-sky-blue: #a2d2ffff;
+
+$misty-rose: #ffe5ecff;
+$pink: #ffc2d1ff;
+$cherry-blossom-pink: #ffb3c6ff;
+$bakermiller-pink: #ff8fabff;
+$rose-pompadour: #fb6f92ff;
+
+
+/* SCSS HEX */
+$eminence: #7e2e84ff;
+$uranian-blue: rgb(108, 191, 243);
+$light-green: #90e39aff;
+$cherry-blossom-pink: #ffb3c6ff;
+$bakermiller-pink: #ff8fabff;
+
+/*$body-color-dark: $azure-web;*/
+$body-bg-dark: $black; 
+$body-secondary-bg-dark: $eminence;
+$body-tertiary-bg-dark: $uranian-blue;
+@import '../node_modules/bootstrap/scss/bootstrap.scss'
