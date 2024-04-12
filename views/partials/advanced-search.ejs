@@ -1,0 +1,59 @@
+<div class="container my-4">
+    <form action="/advanced-search" method="POST">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-6 col-sm-12 col-xl-6 mb-3 justify-content-center">
+                <label for="book-title" class="form-label">Title</label>
+                <input type="text" class="form-control" placeholder="Title" name="bookTitle" aria-label="book-title" id="book-title" >
+            </div> 
+        </div>
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-6 col-sm-12 col-xl-6 mb-3 justify-content-center">
+                <label for="book-author" class="form-label">Author</label>
+                <input type="text" class="form-control" placeholder="Author" name="bookAuthor" aria-label="book-author" id="book-author" >
+            </div> 
+        </div>
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-6 col-sm-12 col-xl-6 mb-3 justify-content-center">
+                <label for="datepicker" class="form-label">Year of Publishing</label>
+                <input type="text" id="datepicker" class="form-control" placeholder="Select Year" />
+            </div> 
+        </div>
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-6 col-sm-12 col-xl-6 mb-3 justify-content-center">
+                <div class="dropdown">
+                    <a data-mdb-dropdown-init class="dropdown-toggle" href="#" id="Dropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                        <i class="flag-united-kingdom flag m-0">🇬🇧</i>
+                    </a>
+                    
+                    <ul class="dropdown-menu" aria-labelledby="Dropdown">
+                        <li>
+                            <a class="dropdown-item" href="#"><i class="flag-united-kingdom flag"></i>ENG <i class="fa fa-check text-success ms-2"></i></a>
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+
+                        <li>
+                            <a class="dropdown-item" href="#"><i class="flag-china flag"></i>中文</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"><i class="flag-japan flag"></i>日本語</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"><i class="flag-germany flag"></i>Deutsch</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"><i class="flag-france flag"></i>Français</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"><i class="flag-spain flag"></i>Español</a>
+                        </li>
+                    </ul>
+                </div>
+            </div> 
+        </div>
+        <div class="row-cols-1 align-items-center py-4">
+            <div class="col justify-content-around">
+                <input type="submit" class="btn btn-primary btn-lg" value="Search">
+            </div>
+        </div>
+    </form>
+</div>

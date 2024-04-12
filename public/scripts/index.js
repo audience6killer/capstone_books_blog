@@ -1,5 +1,5 @@
 
-$("input[name = 'bookISBN']").prop('disabled', true);
+/*$("input[name = 'bookISBN']").prop('disabled', true);
 $("input[value = 'title']").prop('checked', true);
 $("input[value = 'isbn']").prop('checked', false);
 
@@ -19,5 +19,10 @@ $("input[value = 'isbn']").click(function(event){
     $("input[name = 'bookTitle']").prop('disabled', true);
     $("input[name = 'bookISBN']").prop('disabled', false);
 });
-
-
+*/
+$("#datepicker").datepicker({
+    format: "yyyy",
+    viewMode: "years",
+    minViewMode: "years",
+    endDate: '+0d',
+    });

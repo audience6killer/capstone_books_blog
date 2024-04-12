@@ -33,3 +33,11 @@ div.card:hover {
 #search-button {
     background-color: rgb(108, 191, 243);
 }
+.datepicker table tr td span:hover{
+    background-color: black;
+    color: white;
+}
+.datepicker table tr td span.focused{
+    background:black;
+}
+
