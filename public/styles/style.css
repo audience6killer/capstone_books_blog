@@ -40,4 +40,26 @@ div.card:hover {
 .datepicker table tr td span.focused{
     background:black;
 }
+.table-responsive{
+    max-height: 500px;
+    overflow: scroll;
+}
+.table-responsive > th, thead{
+    position: sticky;
+    top: 0;
+}
+/*.table-scroll tbody {
+    position: absolute;
+    overflow-y: scroll;
+    height: 250px;
+}
 
+.table-scroll tr {
+    width: 100%;
+    table-layout: fixed;
+    display: inline-table;
+}
+
+.table-scroll thead > tr > th {
+    border: none;
+}*/

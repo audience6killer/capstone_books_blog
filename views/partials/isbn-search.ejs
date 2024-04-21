@@ -1,19 +1,19 @@
 <div class="container my-4">
     <div class="row-cols-1 align-items-center">
         <div class="col">
-            <form action="/search-book" method="POST">
+            <form action="/code-search" method="POST">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-lg-4 col-sm-8 col-xl-4">
-                        <input type="text" class="form-control" placeholder="Code" name="bookISBN" aria-label="book-isbn">
+                        <input type="text" class="form-control" placeholder="Code" name="bookISBN" aria-label="book-isbn" required>
                     </div>
                     <div class="d-flex col-lg-2 col-sm-4 col-xl-2">
                         <div type="input" class="form-select-lg py-0" name="id-type" id="id-dropdow">
-                            <select name="#" id="#">
+                            <select name="codeType" id="#">
                                 <option disabled selected>Type</option>
-                                <option value="Date">ISBN</option>
-                                <option value="Rating">OCLC</option>
-                                <option value="Rating">LCCN</option>
-                                <option value="Rating">OLID</option>
+                                <option value="isbn">ISBN</option>
+                                <option value="oclc">OCLC</option>
+                                <option value="lccn">LCCN</option>
+                                <option value="olid">OLID</option>
                             </select>
                         </div>
                     </div>   
