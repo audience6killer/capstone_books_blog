@@ -27,56 +27,49 @@
 </div>
 <div class="container my-3">
     <div class="row">
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+      <% if (locals.books) { %>
+        <% for( let index = 0; index < books.length; index++ ) { %>
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
             <div class="card mb-3">
                 <div class="row g-0">
                   <div class="col-md-4">
-                    <img src="images/book-placeholder.jpg" class="img-fluid rounded-start" alt="...">
+                    <img src="<%- books[index].img_url %>" class="img-fluid rounded-start" alt="book cover">
                   </div>
                   <div class="col-md-8">
                     <div class="card-body">
-                      <a href="#"><h5 class="card-title">空ろの箱と零のマリア</h5></a>
-                      <h6 class="">⭐⭐⭐⭐⭐</h6>
-                      <h6 class="card-subtitle book-genre">Action, Drama, Horror, Mystery, Romance, Supernatural, Suspense</h6>
-                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                      <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                      <a href="#"><h5 class="card-title"><%- books[index].title %></h5></a>
+                      <h6 class=""><%- books[index].rating %></h6>
+                      <h6 class="card-subtitle book-genre"><%- books[index].author %></h6>
+                      <p class="card-text"><%- books[index].review.substring(0, 80) + '...' %></p>
+                      <p class="card-text"><small class="text-body-secondary"><%- books[index].modified_at %></small></p>
                     </div>
                   </div>
                 </div>
             </div>
-        </div>
+          </div>
+        <% } %>
+      <% } %>
+        
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
-            <div class="card mb-3">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img src="images/book-placeholder.jpg" class="img-fluid rounded-start" alt="...">
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">Card title</h5>
-                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                      <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                    </div>
+          <div class="card mb-3">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img src="images/book-placeholder.jpg" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <a href="#"><h5 class="card-title">空ろの箱と零のマリア</h5></a>
+                    <h6 class="">⭐⭐⭐⭐⭐</h6>
+                    <h6 class="card-subtitle book-genre">Action, Drama, Horror, Mystery, Romance, Supernatural, Suspense</h6>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
                   </div>
                 </div>
-            </div>
+              </div>
+          </div>
         </div>
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
-            <div class="card mb-3">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img src="images/book-placeholder.jpg" class="img-fluid rounded-start" alt="...">
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">Card title</h5>
-                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                      <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                    </div>
-                  </div>
-                </div>
-            </div>
-        </div>
+        
+        
     </div>
     
 </div>

@@ -8,14 +8,14 @@
     </div>
 </div>
 <div class="container d-flex flex-wrap justify-content-around my-5">
-    <img src="<%- book.imgUrl %>" alt="book/cover" width="200px">
+    <img src="<%- book.img_url %>" alt="book/cover" width="200px">
     <div class="align-content-center mx-4">
         <h3 class="p-2"><%- book.title %></h3>
         <h4 class="p-2"><%- book.author %></h4>
         <label for="publishYear">Publish Year: </label>
-        <p id="publishYear"><%- book.publishYear %></p>
+        <p id="publishYear"><%- book.publish_date %></p>
         <label for="isbn">ISBN: </label>
-        <p id="isbn"><%- book.isbn %></p>
+        <p id="isbn"><%- book.code %></p>
     </div>
 </div>
 
@@ -36,6 +36,7 @@
                     <span id="star5" class="fa fa-star"></span>  
                 </div>
             </div>
+            <input id="book_index" type="hidden" name="book_index" value="<%- book.no_item %>">
             <input id="rating" type="hidden" name="rating">
             <input type="submit" class="btn btn-primary btn-lg" value="Accept">
         </form>

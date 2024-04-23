@@ -32,11 +32,11 @@
                     <tbody>
                     <% for( let element = 0; element < searchResults.length; element++ ) { %>
                         <tr>
-                            <td><%- element + 1 %></td>
+                            <td><%- element + 1 %></label></td>
                             <td><%- searchResults[element].title %></td>
                             <td><%- searchResults[element].author %></td>
-                            <td><%- searchResults[element].publishYear %></td>
-                            <td><img src="<%- searchResults[element].imgUrl %>" alt="book" width="120"></td>
+                            <td><%- searchResults[element].publish_date %></td>
+                            <td><img src="<%- searchResults[element].img_url %>" alt="book" width="120"></td>
                         </tr>
                     <% } %>
                         
