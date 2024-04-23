@@ -35,3 +35,51 @@ $(".table > tr").on('click', () => {
     $(this).addClass('table-active');
 });
 
+$(function() {
+    const $alertPlaceholder = $('#liveAlertPlaceholder');
+    
+    if ($alertPlaceholder){
+        const appendAlert = (message, type) => {
+            const $wrapper = $(`
+                <div class="alert alert-${type} alert-dismissible" role="alert">
+                    <div>${message}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>`
+            );
+            
+            $alertPlaceholder.append($wrapper);
+        };
+        appendAlert('An error was encountered while executing your query. Please try again.', 'danger');
+    }
+
+});
+
+$(function() {
+    var $stars = $("#ratingStars .fa-star");
+    $stars.on('mouseenter', function(){
+        //$(this).removeClass("fa-lg");
+        $(this).addClass("fa-lg");
+        const actualIndex = parseInt($(this).attr('id').charAt(4));
+        $stars.filter(function(index){
+            return parseInt($(this).attr('id').charAt(4)) <= actualIndex
+        }).addClass("hover-star");
+        
+    }).on('mouseleave', function(){
+        $(this).removeClass("fa-lg");
+        $stars.removeClass('hover-star');
+        //$(this).addClass("fa-lg");
+    });
+
+    $stars.on('click', function(){
+        $stars.removeClass('checked-star');
+        const actualIndex = parseInt($(this).attr('id').charAt(4));
+        $stars.filter(function(index){
+            return parseInt($(this).attr('id').charAt(4)) <= actualIndex
+        }).addClass("checked-star");
+        $("#rating").attr('value', actualIndex);
+
+    });
+
+});
+
+

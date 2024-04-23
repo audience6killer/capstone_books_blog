@@ -51,6 +51,7 @@ function parseBookInfo(resData){
         
 
     });
+    values = parsedItems;
 
     console.log(parsedItems);
     return parsedItems;
@@ -87,7 +88,9 @@ app.post('/advanced-search', async(req, res) => {
         var parsedResults = parseBookInfo(response.data);
         res.render('search-results.ejs', {searchResults: parsedResults});
     } catch (error) {
-        console.error(error);
+        //console.error(error);
+        var flag = true;
+        res.render('new.ejs', {activateAlert: flag});
     }
 });
 
@@ -106,8 +109,14 @@ app.post('/code-search', async (req, res) => {
 });
 
 app.post('/write-review', async (req, res) => {
+    //console.log(req.body);
+    const selectedItem = values[parseInt(req.body.selectedOption) - 1];
+    console.log(selectedItem);
+    res.render('write-review.ejs', {book: selectedItem});
+});
+
+app.post('/add-entry', (req, res) => {
     console.log(req.body);
-    res.redirect('/');
 });
 
 app.listen(port, ()=>{

@@ -1,0 +1,46 @@
+<%- include("partials/header.ejs") %>
+<div class="container my-5">
+    <div class="p-5 text-center bg-body-secondary rounded-3">
+        <h1 class="text-body-emphasis">Write a review</h1>
+        <p class="lead">
+          Write a review or some toughts about this book.
+        </p>
+    </div>
+</div>
+<div class="container d-flex flex-wrap justify-content-around my-5">
+    <img src="<%- book.imgUrl %>" alt="book/cover" width="200px">
+    <div class="align-content-center mx-4">
+        <h3 class="p-2"><%- book.title %></h3>
+        <h4 class="p-2"><%- book.author %></h4>
+        <label for="publishYear">Publish Year: </label>
+        <p id="publishYear"><%- book.publishYear %></p>
+        <label for="isbn">ISBN: </label>
+        <p id="isbn"><%- book.isbn %></p>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center my-5">
+    <div class="containter">
+        <form action="/add-entry" method="POST">
+            <div class="mb-3">
+                <label class="form-label" for="userText">Your text</label>
+                <textarea class="form-control" name="review" id="review" cols="100" rows="10"></textarea>
+            </div>
+            <div class="my-3">
+                <label class="form-label" for="ratingStars">Rating</label>
+                <div id="ratingStars" class="rating-stars">
+                    <span id="star1" class="fa fa-star"></span>
+                    <span id="star2" class="fa fa-star"></span>
+                    <span id="star3" class="fa fa-star"></span>
+                    <span id="star4" class="fa fa-star"></span>
+                    <span id="star5" class="fa fa-star"></span>  
+                </div>
+            </div>
+            <input id="rating" type="hidden" name="rating">
+            <input type="submit" class="btn btn-primary btn-lg" value="Accept">
+        </form>
+        
+    </div>
+</div>
+
+<%- include("partials/footer.ejs") %>
