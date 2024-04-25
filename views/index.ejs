@@ -1,4 +1,7 @@
 <%- include("partials/header.ejs") %>
+<% if (locals.message) { %>
+  <div id="homeLiveAlertPlaceholder" class="alert-<%- type %>"><%- message %></div>
+<% } %>
 <div class="container my-5">
   <div class="p-5 text-center bg-body-secondary rounded-3">
     <h1 class="text-body-emphasis">Books I've Read</h1>
@@ -10,7 +13,7 @@
 <div class="container my-3">
     <div class="row row-cols-2 align-items-top justify-content-between">
         <div class="col-lg-6 col-xl-4">
-            <h4>Number of entries: 24</h4>
+            <h4>Number of entries: <%- locals.books.length %></h4>
         </div>
         <div class="col-lg-6 col-xl-4">
             <form action="/sort-entries" method="POST" id="dropdown">
@@ -37,11 +40,16 @@
                   </div>
                   <div class="col-md-8">
                     <div class="card-body">
-                      <a href="#"><h5 class="card-title"><%- books[index].title %></h5></a>
-                      <h6 class=""><%- books[index].rating %></h6>
-                      <h6 class="card-subtitle book-genre"><%- books[index].author %></h6>
+                      <a href="#" class="book-title"><h5 class="card-title"><%- books[index].title %></h5></a>
+                      <h6 class="card-subtitle book-genre"><%-books[index].author %></h6>
+                      <div class="rating"><%- stars[books[index].rating - 1] %></div>
                       <p class="card-text"><%- books[index].review.substring(0, 80) + '...' %></p>
-                      <p class="card-text"><small class="text-body-secondary"><%- books[index].modified_at %></small></p>
+                      <p class="card-text"><small class="text-body-secondary">Last modified: <%- books[index].modified_at %></small></p>
+                      <div class="mt-5">
+                        <a href="/remove?id=<%- books[index].id  %>" class="card-link">Delete</a>
+                        <a href="/edit?id=<%- books[index].id  %>" class="card-link">Edit</a>
+                      </div>
+                      
                     </div>
                   </div>
                 </div>
@@ -49,27 +57,6 @@
           </div>
         <% } %>
       <% } %>
-        
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
-          <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="images/book-placeholder.jpg" class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <a href="#"><h5 class="card-title">空ろの箱と零のマリア</h5></a>
-                    <h6 class="">⭐⭐⭐⭐⭐</h6>
-                    <h6 class="card-subtitle book-genre">Action, Drama, Horror, Mystery, Romance, Supernatural, Suspense</h6>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                  </div>
-                </div>
-              </div>
-          </div>
-        </div>
-        
-        
     </div>
     
 </div>

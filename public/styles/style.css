@@ -21,7 +21,7 @@ div.card:hover {
    color:black;*/
 }
 
-.card-body a {
+.book-title {
     color: white;
     text-decoration: none;
 }

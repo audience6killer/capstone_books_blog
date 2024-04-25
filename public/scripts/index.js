@@ -55,6 +55,27 @@ $(function() {
 });
 
 $(function() {
+    const $alertPlaceholder = $('#homeLiveAlertPlaceholder');
+    const type = $alertPlaceholder.attr('class').split('-')[1];
+    const msg = $alertPlaceholder.text();
+    
+    if ($alertPlaceholder){
+        const appendAlert = (message, type) => {
+            const $wrapper = $(`
+                <div class="alert alert-${type} alert-dismissible" role="alert">
+                    <div>${message}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>`
+            );
+            
+            $alertPlaceholder.replaceWith($wrapper);
+        };
+        appendAlert(msg, type);
+    }
+
+});
+
+$(function() {
     var $stars = $("#ratingStars .fa-star");
     $stars.on('mouseenter', function(){
         //$(this).removeClass("fa-lg");
@@ -81,5 +102,3 @@ $(function() {
     });
 
 });
-
-

@@ -2,7 +2,10 @@ import express from "express";
 import bodyParser from "body-parser";
 import axios, { all } from "axios";
 import pg from "pg";
+import parse from 'postgres-date';
 
+// return string as is
+pg.types.setTypeParser(1114, str => str);
 
 const API_URL = "https://openlibrary.org/search.json";
 const ISBN_URL = "http://openlibrary.org/api/volumes/brief/"; // <id-type>/<id-value>.json"
@@ -16,9 +19,20 @@ const db = new pg.Client({
     password: "fulanitos25",
     port: 5432
 });
-db.connect();
-var values = [];
 
+db.connect();
+
+
+// Constants
+const stars = [
+    "⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"
+];
+const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+
+// Database operations
 async function getReviewedBooks(){
     const query = await db.query(
         "SELECT * FROM reviewed_books"
@@ -42,14 +56,14 @@ async function saveBookQuery(books){
 
     books.forEach((book, index) => {
         db.query("INSERT INTO books_query (title, author, publish_date, code_type, code, img_url, no_item) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
-                    [book.title, book.author, book.publishYear, 'isbn', book.isbn, book.imgUrl, index])
+                    [book.title, book.author, book.publish_date, book.code_type, book.code, book.img_url, index])
     });
     
 }
 
 async function getQueryBooks(){
     const query = await db.query("SELECT * FROM books_query");
-    console.log(query.rows);
+    //console.log(query.rows);
     return query.rows;
 }
 
@@ -58,6 +72,17 @@ async function saveBookReview(book){
                     [book.title, book.author, book.publish_date, book.code_type, book.code, book.img_url, book.rating, book.review]);
 }
 
+async function deleteBookReview(id){
+    await db.query("DELETE FROM reviewed_books WHERE id=$1", [id]);
+}
+
+async function getBookById(id){
+    const book = await db.query("SELECT * FROM reviewed_books WHERE id=$1", [id]);
+    console.log(book.rows[0]);
+    return book.rows[0];
+}
+
+// Parsers
 function parseCodeBookInfo(resData){
     const keys = Object.keys(resData.records);
     const items = keys.map(key => {
@@ -67,13 +92,13 @@ function parseCodeBookInfo(resData){
         return {
             title: item.data.title,
             author: item.data.authors['0'].name,
-            publishYear: item.publishDates[0],
-            isbn: item.isbns[0],
-            imgUrl: item.data.cover.medium,
+            publish_date: item.publishDates[0],
+            code: item.isbns[0],
+            code_type: 'isbn',
+            img_url: item.data.cover.medium,
         };
     });
-    values = entries;
-    console.log(entries);
+    
     return entries;
 }
 
@@ -89,30 +114,61 @@ function parseBookInfo(resData){
             return {
                 title: element['title'],
                 author: element['author_name'][0],
-                publishYear: element['first_publish_year'],
+                publish_date: element['first_publish_year'],
                 isbn: element['isbn'].length > 1 ? element['isbn'][0] : element['isbn'],
-                imgUrl: "https://covers.openlibrary.org/b/isbn/" + (element['isbn'].length > 1 ? element['isbn'][0] : element['isbn']) + '-M.jpg',
-    
+                img_url: "https://covers.openlibrary.org/b/isbn/" + 
+                        (element['isbn'].length > 1 ? element['isbn'][0] : element['isbn']) + 
+                        '-M.jpg',
+                code_type: 'isbn',
             };
         }
-        
-
     });
-    values = parsedItems;
 
-    console.log(parsedItems);
+    //console.log(parsedItems); 
     return parsedItems;
+}
 
+function parseDate(timestamp){
+    //console.log(typeof(timestamp) + " " + timestamp);
+    const date = parse(timestamp);
+    const output = months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+    return output;
+}
+
+function parseTimestamps(books){
+    const newBooks = books.map(element => {
+        var newElement = element;
+        //console.log(element.modified_at);
+        newElement.modified_at = parseDate(element.modified_at);
+        return newElement
+    });
+
+    return newBooks;
 }
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
 
+
+
 app.get('/', async (req, res)=>{
+    var type = "";
+    var alertMsg = "";
+    if(req.query.message){
+        alertMsg = req.query.message;
+    }
+    if(req.query.type){
+        type = req.query.type;
+    }
+    
     const books = await getReviewedBooks();
-    console.log(books);
-    res.render('index.ejs', {books: books});
+    const parsedBooks = parseTimestamps(books);
+    res.render('index.ejs', 
+        {books: parsedBooks, 
+        stars: stars, 
+        message: alertMsg,
+        type:type});
 });
 
 app.get('/new', (req, res) => {
@@ -177,20 +233,52 @@ app.post('/write-review', async (req, res) => {
 });
 
 app.post('/add-entry', async (req, res) => {
-    const selectedItem = await getQueryBookByItemNo(parseInt(req.body.book_index));
-    const entry = {
-        title: selectedItem.title,
-        author: selectedItem.author,
-        publish_date: selectedItem.publish_date,
-        code: selectedItem.code,
-        code_type: selectedItem.codeType,
-        img_url: selectedItem.img_url,
-        rating: parseInt(req.body.rating),
-        review: req.body.review
-    };
-    await saveBookReview(entry);
-    res.redirect('/');
+    try {
+        const selectedItem = await getQueryBookByItemNo(parseInt(req.body.book_index));
+        const entry = {
+            title: selectedItem.title,
+            author: selectedItem.author,
+            publish_date: selectedItem.publish_date,
+            code: selectedItem.code,
+            code_type: selectedItem.codeType,
+            img_url: selectedItem.img_url,
+            rating: parseInt(req.body.rating),
+            review: req.body.review
+        };
+        await saveBookReview(entry);
+
+        var msg = encodeURIComponent("added-succesfully")
+        res.redirect('/?message=' + msg);
+
+    } catch (error) {
+        var msg = encodeURIComponent("added-failed")
+        res.redirect('/?message=' + msg);
+    }
+    
 });
+
+app.get('/remove', async (req, res) => {
+
+    try {
+        const id = req.query.id;
+        await deleteBookReview(id);
+        var msg = encodeURIComponent("Deleted-successfully");
+        var type = encodeURIComponent("success");
+        res.redirect(`/?message=${msg}&type=${type}`);
+    } catch (error) {
+        console.error(error);
+        var msg = encodeURIComponent("Error deleting the entry");
+        var type = encodeURIComponent("danger");
+        res.redirect(`/?message=${msg}&type=${type}`);
+    }
+});
+
+app.get('/edit', async (req, res) => {
+    const id = req.query.id;
+    const book = await getBookById(id);
+
+    res.render('write-review.ejs', {book: book});
+})
 
 app.listen(port, ()=>{
     console.log("Listening in port " + port)

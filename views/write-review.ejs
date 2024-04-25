@@ -24,7 +24,11 @@
         <form action="/add-entry" method="POST">
             <div class="mb-3">
                 <label class="form-label" for="userText">Your text</label>
-                <textarea class="form-control" name="review" id="review" cols="100" rows="10"></textarea>
+                <textarea class="form-control" name="review" id="review" cols="100" rows="10">
+                    <% if (book.review) { %>
+                     <%- book.review %>
+                    <% } %>
+                </textarea>
             </div>
             <div class="my-3">
                 <label class="form-label" for="ratingStars">Rating</label>
@@ -36,8 +40,10 @@
                     <span id="star5" class="fa fa-star"></span>  
                 </div>
             </div>
-            <input id="book_index" type="hidden" name="book_index" value="<%- book.no_item %>">
-            <input id="rating" type="hidden" name="rating">
+            <input id="rating" type="hidden" name="rating" <% if (book.rating) { %>
+                value="<%- book.rating %>"
+            <% } %>>
+            <input id="book_index" type="hidden" name="book_index" value="<%- book.no_item %>">  
             <input type="submit" class="btn btn-primary btn-lg" value="Accept">
         </form>
         
