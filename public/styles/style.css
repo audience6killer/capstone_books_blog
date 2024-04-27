@@ -21,7 +21,7 @@ div.card:hover {
    color:black;*/
 }
 
-.card-body a {
+.book-title {
     color: white;
     text-decoration: none;
 }
@@ -32,4 +32,63 @@ div.card:hover {
 
 #search-button {
     background-color: rgb(108, 191, 243);
+}
+.datepicker table tr td span:hover{
+    background-color: black;
+    color: white;
+}
+.datepicker table tr td span.focused{
+    background:black;
+}
+.table-responsive{
+    max-height: 500px;
+    overflow: scroll;
+}
+.table-responsive > th, thead{
+    position: sticky;
+    top: 0;
+}
+.hover-star, .checked-star {
+    color: orange;
+}
+
+.review-text {
+    font-size: larger;
+    text-align: justify;
+}
+
+.placeholder {
+	position: relative;
+}
+.placeholder::before, .placeholder::after {
+	content: "";
+	display: block;
+	left: 0;
+	top: 0;
+	width: 100%;
+	text-align: center;
+}
+.placeholder::before {
+	background: #ccc none repeat scroll 0 0;
+	/* box-shadow: inset 0 1px 10px #bbb; */
+	border-radius: 3px;
+	width: 120px;
+    height: 198px;
+}
+.placeholder::after {
+	font-size: 49px;
+	opacity: 0.25;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	font-family: "FontAwesome";
+}
+.placeholder.video::after {
+	content: "\f16a";
+}
+.placeholder.image::after {
+	content: "\f03e";
+}
+.placeholder.audio::after {
+	content: "\f028";
 }

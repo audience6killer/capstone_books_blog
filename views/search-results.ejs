@@ -1,0 +1,61 @@
+<%- include("partials/header.ejs") %>
+<div class="containter my-5">
+    <div class="d-flex row justify-content-start align-items-start">
+        <div class="col-auto">
+            <a class="text-decoration-none" href="/new">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"></path>
+                </svg>
+                Search Again
+            </a>
+        </div>
+    </div>
+    <div class="row-cols-1 mb-4">
+        <div class="col">
+            <h2>Search Results</h2>
+        </div>
+    </div>
+    <div class="row-cols-1">
+        <div class="col">
+            <% if (locals.searchResults.length != 0) { %>
+            <div class="table-responsive">
+                <table id="resultsTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Publishing Date</th>
+                            <th>Cover Art</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% for( let element = 0; element < searchResults.length; element++ ) { %>
+                        <tr>
+                            <td><%- element + 1 %></label></td>
+                            <td><%- searchResults[element].title %></td>
+                            <td><%- searchResults[element].author %></td>
+                            <td><%- searchResults[element].publish_date %></td>
+                            <td><img id="cover-<%-element%>" src="<%- searchResults[element].img_url %>" alt="book" width="120" hidden> <label for="cover-<%-element%>" class="placeholder image"></td>
+                        </tr>
+                    <% } %>
+                        
+                    </tbody>
+                </table>
+            </div> 
+            <div class="row-cols-1 my-4">
+                <div class="col">
+                    <form action="/write-review" method="POST">
+                        <input id="selectedOption" type="hidden" name="selectedOption">
+                        <input type="submit" class="btn btn-primary btn-lg" value="Next" >
+                     </form>   
+                </div>
+            </div>
+            <% }else { %>
+                <h4>No results found. Please, try again</h4>
+            <% } %>
+        </div>
+    </div>
+    
+</div>
+<%- include("partials/footer.ejs") %>

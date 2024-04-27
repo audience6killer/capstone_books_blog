@@ -1,0 +1,41 @@
+<div class="container my-4">
+    <form action="/advanced-search" method="POST">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-6 col-sm-12 col-xl-6 mb-3 justify-content-center">
+                <label for="book-title" class="form-label">Title</label>
+                <input type="text" class="form-control" placeholder="Title" name="title" aria-label="book-title" id="book-title" required>
+            </div> 
+        </div>
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-6 col-sm-12 col-xl-6 mb-3 justify-content-center">
+                <label for="book-author" class="form-label">Author</label>
+                <input type="text" class="form-control" placeholder="Author" name="author" aria-label="book-author" id="book-author" required>
+            </div> 
+        </div>
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-6 col-sm-12 col-xl-6 mb-3 justify-content-center">
+                <label for="datepicker" class="form-label">Year of Publishing</label>
+                <input type="text" id="datepicker" class="form-control" name="publish_year" placeholder="Select Year" />
+            </div> 
+        </div>
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-6 col-sm-12 col-xl-6 mb-3 justify-content-center">
+                <label for="lang-dropdown" class="form-label">Language</label>
+                <div type="input" class="form-select-lg py-0" name="lang" id="lang-dropdow">
+                    <select name="language" id="language">
+                        <option disabled selected>Select</option>
+                        <option value="eng"><span>🇬🇧</span> English</option>
+                        <option value="esp"><span>🇲🇽</span> Spanish</option>
+                        <option value="jpn"><span>🇯🇵</span> Japanese</option>
+                        <option value="zh"><span>🇨🇳</span> Mandarin</option>
+                    </select>
+                </div>
+            </div> 
+        </div>
+        <div class="row-cols-1 align-items-center py-4">
+            <div class="col justify-content-around">
+                <input type="submit" class="btn btn-primary btn-lg" value="Search">
+            </div>
+        </div>
+    </form>
+</div>
