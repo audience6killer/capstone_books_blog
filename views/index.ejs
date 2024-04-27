@@ -6,7 +6,7 @@
   <div class="p-5 text-center bg-body-secondary rounded-3">
     <h1 class="text-body-emphasis">Books I've Read</h1>
     <p class="lead">
-      Short reviews and rating I do for the books I've read. Constantly updating as I read more.
+      Short reviews and ratings I do for the books I've read. Constantly updating as I read more.
     </p>
   </div>
 </div>
@@ -16,15 +16,19 @@
             <h4>Number of entries: <%- locals.books.length %></h4>
         </div>
         <div class="col-lg-6 col-xl-4">
-            <form action="/sort-entries" method="POST" id="dropdown">
-                <div type="submit" class="form-select-lg py-0" name="orderBy" id="sort-dropdow">
-                    <select name="#" id="#">
-                        <option disabled selected>Order by</option>
-                        <option value="Date">Date</option>
-                        <option value="Rating">Rating</option>
-                    </select>
-                </div>
-            </form>
+            <div class="form-select-lg py-0" id="sort-dropdow">
+              <form action="/" method="GET">
+                <label for="orderBy" class="input-label">Sort By:  </label>
+                <select name="orderBy" id="orderBy" onchange="this.form.submit()">
+                    <option value="modified_at" <% if (orderBy === 'modified_at') { %>
+                     selected
+                    <% } %>>Date</option>
+                    <option value="rating" <% if (orderBy === 'rating') { %>
+                      selected
+                     <% } %>>Rating</option>
+                </select>
+              </form>
+            </div>
         </div>
     </div>   
 </div>
@@ -36,11 +40,12 @@
             <div class="card mb-3">
                 <div class="row g-0">
                   <div class="col-md-4">
-                    <img src="<%- books[index].img_url %>" class="img-fluid rounded-start" alt="book cover">
+                    <label for="cover-<%-books[index].id%>" class="image img-fluid rounded-start"></label>
+                    <img id="cover-<%-books[index].id%>" src="<%- books[index].img_url %>" class="img-fluid rounded-start" alt="book cover" hidden>
                   </div>
                   <div class="col-md-8">
                     <div class="card-body">
-                      <a href="#" class="book-title"><h5 class="card-title"><%- books[index].title %></h5></a>
+                      <a href="/post?id=<%- books[index].id %>" class="book-title"><h5 class="card-title"><%- books[index].title %></h5></a>
                       <h6 class="card-subtitle book-genre"><%-books[index].author %></h6>
                       <div class="rating"><%- stars[books[index].rating - 1] %></div>
                       <p class="card-text"><%- books[index].review.substring(0, 80) + '...' %></p>

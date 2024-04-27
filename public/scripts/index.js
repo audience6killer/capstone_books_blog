@@ -31,7 +31,7 @@ $(function ($) {
 
 
 $(".table > tr").on('click', () => {
-    console.log(this);
+    //console.log(this);
     $(this).addClass('table-active');
 });
 
@@ -102,3 +102,39 @@ $(function() {
     });
 
 });
+
+$(function() {
+    var $stars = $("#ratingStars .fa-star");
+    const value = $("input[name='rating']").attr('value');
+    if(value){
+        $stars.removeClass('checked-star');
+        const actualIndex = value;
+        $stars.filter(function(index){
+            return parseInt($(this).attr('id').charAt(4)) <= actualIndex
+        }).addClass("checked-star");
+        $("#rating").attr('value', actualIndex);
+    }
+    //console.log(value);
+});
+
+$(function() {
+    var $stars = $("#rating-stars .fa-star");
+    const value = $("input[name='rating']").attr('value');
+    if(value){
+        $stars.removeClass('checked-star');
+        const actualIndex = value;
+        $stars.filter(function(index){
+            return parseInt($(this).attr('id').charAt(4)) <= actualIndex
+        }).addClass("checked-star");
+        $("#rating").attr('value', actualIndex);
+    }
+    //console.log(value);
+});
+
+$("img[id|='cover']").on('load', function(){
+    const id = $(this).attr('id');
+    $(this).prop('hidden', false);
+    var $placeholder = $(`label[for=${id}]`);
+    $placeholder.prop('hidden', true);
+});
+

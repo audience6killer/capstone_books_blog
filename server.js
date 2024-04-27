@@ -33,9 +33,9 @@ const months = [
 ];
 
 // Database operations
-async function getReviewedBooks(){
+async function getReviewedBooks(orderBy){
     const query = await db.query(
-        "SELECT * FROM reviewed_books"
+        `SELECT * FROM reviewed_books ORDER BY ${orderBy} DESC;`
     );
     var books = query.rows;
     return books;
@@ -78,10 +78,14 @@ async function deleteBookReview(id){
 
 async function getBookById(id){
     const book = await db.query("SELECT * FROM reviewed_books WHERE id=$1", [id]);
-    console.log(book.rows[0]);
+    //console.log(book.rows[0]);
     return book.rows[0];
 }
 
+async function updateBookReview(id, review, rating){
+    await db.query("UPDATE reviewed_books SET review = $1, rating = $2 WHERE id=$3;", 
+                    [review, rating, id]);
+}
 // Parsers
 function parseCodeBookInfo(resData){
     const keys = Object.keys(resData.records);
@@ -153,6 +157,12 @@ app.use(express.static('public'));
 
 
 app.get('/', async (req, res)=>{
+    var orderBy = "modified_at"
+    if(req.query.orderBy){
+        orderBy = req.query.orderBy;
+    }
+
+
     var type = "";
     var alertMsg = "";
     if(req.query.message){
@@ -162,13 +172,14 @@ app.get('/', async (req, res)=>{
         type = req.query.type;
     }
     
-    const books = await getReviewedBooks();
+    const books = await getReviewedBooks(orderBy);
     const parsedBooks = parseTimestamps(books);
     res.render('index.ejs', 
         {books: parsedBooks, 
         stars: stars, 
         message: alertMsg,
-        type:type});
+        type:type,
+        orderBy: orderBy});
 });
 
 app.get('/new', (req, res) => {
@@ -176,7 +187,7 @@ app.get('/new', (req, res) => {
 });
 
 app.post('/advanced-search', async(req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
 
     const params = {
         title: req.body.title,
@@ -205,12 +216,12 @@ app.post('/advanced-search', async(req, res) => {
 
 app.post('/code-search', async (req, res) => {
     
-    console.log(req.body);
+    //console.log(req.body);
     try {
-        const response = await axios.get(ISBN_URL + req.body.codeType  + '/' + req.body.bookISBN + '.json');
-        console.log(response.data);
+        const response = await axios.get(ISBN_URL + req.body.code_type  + '/' + req.body.bookISBN + '.json');
+        //console.log(response.data);
         var parsedResults = parseCodeBookInfo(response.data);
-        saveBookQuery(parsedResults);
+        await saveBookQuery(parsedResults);
         res.redirect('/query-result');
         //res.render('search-results.ejs', {searchResults: parsedResults});
     } catch (error) {
@@ -221,14 +232,14 @@ app.post('/code-search', async (req, res) => {
 
 app.get('/query-result', async (req, res) => {
     const query_books = await getQueryBooks();
-    console.log(query_books);
+    //console.log(query_books);
     res.render('search-results.ejs', {searchResults: query_books});
 })
 
 app.post('/write-review', async (req, res) => {
     //console.log(req.body);
     const selectedItem = await getQueryBookByItemNo(parseInt(req.body.selectedOption) - 1)
-    console.log(selectedItem);
+    //console.log(selectedItem);
     res.render('write-review.ejs', {book: selectedItem});
 });
 
@@ -277,7 +288,25 @@ app.get('/edit', async (req, res) => {
     const id = req.query.id;
     const book = await getBookById(id);
 
-    res.render('write-review.ejs', {book: book});
+    res.render('edit-review.ejs', {book: book});
+});
+
+app.post('/edit-entry', async (req, res) => {
+    const review = req.body.review;
+    const rating = parseInt(req.body.rating);
+    const id = parseInt(req.body.id);
+    //console.log(req.body);
+    await updateBookReview(id, review, rating);
+
+    res.redirect('/');
+});
+
+app.get('/post', async (req, res) => {
+    const id = req.query.id;
+    const book = await getBookById(id);
+
+    res.render('post.ejs', {book: book});
+
 })
 
 app.listen(port, ()=>{

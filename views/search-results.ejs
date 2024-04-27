@@ -17,7 +17,7 @@
     </div>
     <div class="row-cols-1">
         <div class="col">
-            <% if (locals.searchResults) { %>
+            <% if (locals.searchResults.length != 0) { %>
             <div class="table-responsive">
                 <table id="resultsTable" class="table table-hover">
                     <thead>
@@ -36,25 +36,26 @@
                             <td><%- searchResults[element].title %></td>
                             <td><%- searchResults[element].author %></td>
                             <td><%- searchResults[element].publish_date %></td>
-                            <td><img src="<%- searchResults[element].img_url %>" alt="book" width="120"></td>
+                            <td><img id="cover-<%-element%>" src="<%- searchResults[element].img_url %>" alt="book" width="120" hidden> <label for="cover-<%-element%>" class="placeholder image"></td>
                         </tr>
                     <% } %>
                         
                     </tbody>
                 </table>
             </div> 
+            <div class="row-cols-1 my-4">
+                <div class="col">
+                    <form action="/write-review" method="POST">
+                        <input id="selectedOption" type="hidden" name="selectedOption">
+                        <input type="submit" class="btn btn-primary btn-lg" value="Next" >
+                     </form>   
+                </div>
+            </div>
             <% }else { %>
                 <h4>No results found. Please, try again</h4>
             <% } %>
         </div>
     </div>
-    <div class="row-cols-1 my-4">
-        <div class="col">
-            <form action="/write-review" method="POST">
-                <input id="selectedOption" type="hidden" name="selectedOption">
-                <input type="submit" class="btn btn-primary btn-lg" value="Next" >
-             </form>   
-        </div>
-    </div>
+    
 </div>
 <%- include("partials/footer.ejs") %>
